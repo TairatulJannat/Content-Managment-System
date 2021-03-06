@@ -1,7 +1,7 @@
 <?php
     if(isset($_GET['edit_user']))
     {
-        $the_user_id =$_GET['edit_user'];
+        $the_user_id = escape($_GET['edit_user']);
 
          $query = " SELECT * FROM users WHERE user_id = $the_user_id ";
          $select_users_query = mysqli_query($connection, $query);
@@ -15,9 +15,8 @@
          $user_email= $row['user_email'];
          $user_image= $row['user_image'];
          $user_role= $row['user_role'];
-         }
-        }
          
+         }
         if(isset($_POST['edit_user'])){
 
 
@@ -29,7 +28,21 @@
     $username= $_POST['username'];
     $user_email= $_POST['user_email'];
     $user_password= $_POST['user_password'];
-        
+    $post_date =date('d-m-y');
+
+    if(!empty($user_password)){
+    $query_password = "SELECT user_password FROM users WHERE user_id = $user_id";
+    $get_user_query = mysqli_query($connection,$query_password);
+
+    confirmQuery($get_user_query);
+
+    $row = mysqli_fetch_array($get_user_query);
+    $db_user_password =$row ['user_password'];
+    if($db_user_password != $user_password){
+
+        $hashed_password = password_hash($user_password,PASSWORD_BCRYPT,array('cost'=>12));
+
+    }
 
     $query = "UPDATE users SET ";
     $query .="user_firstname ='{$user_firstname}', ";
@@ -37,12 +50,18 @@
     $query .="user_role ='{$user_role}', ";
     $query .="username ='{$username}', ";
     $query .="user_email ='{$user_email}', ";
-    $query .="user_password ='{$user_password}' ";
+    $query .="user_password ='{$hashed_password}' ";
     $query .="WHERE user_id ={$the_user_id} ";
     
     $edit_user_query = mysqli_query($connection, $query);
     confirmQuery($edit_user_query);
-        }
+    echo "User Update" . "<a href='users.php'>View User?</a>";   
+    
+    }
+    }
+    }else{
+        header("Location:index.php");
+    }
 ?>
 
 
@@ -62,7 +81,7 @@
     
     <div class="form-group">
     <select name="user_role" id="">
-           <option value="Subscriber"><?php echo $user_role; ?></option>
+           <option value="<?php echo $user_role; ?>"><?php echo $user_role; ?></option>
             <?php
             if($user_role== 'admin'){
                echo  "<option value='subscriber'>Subcriber</option>" ;
@@ -90,7 +109,7 @@
      
     <div class="form-group">
         <label for="post_content">Password</label>
-        <input type="password" value="<?php echo $user_password; ?>" class="form-control" name="user_password">
+        <input autocomplete="off" type="password" class="form-control" name="user_password">
         
     </div>
 

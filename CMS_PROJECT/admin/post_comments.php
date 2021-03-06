@@ -1,16 +1,26 @@
-<?php
 
-if(isset($_SESSION['user_role'])){
-
-  if($_SESSION['user_role'] != 'admin'){
+<?php include "homepage/header.php" ?>
 
 
-   header("Location:./index.php");
+<div id="wrapper">
 
-  }
-  }
+<!-- Navigation -->
+<?php include "homepage/navigation.php" ?>
 
-?>
+<div id="page-wrapper">
+
+<div class="container-fluid">
+
+<!-- Page Heading -->
+<div class="row"> 
+<div class="col-lg-12">
+<h1 class="page-header">
+Welcome to comments
+<small> Author</small>
+</h1>
+
+
+
 
 <table class="table table-bordered table-hover"> 
 <thead>
@@ -31,7 +41,7 @@ if(isset($_SESSION['user_role'])){
 <tbody>
 <?php
 
-$query = " SELECT * FROM comments";
+$query = " SELECT * FROM comments WHERE comment_post_id= " . mysqli_real_escape_string($connection, $_GET['id']). " ";
 $select_comments = mysqli_query($connection, $query);
 
 while ($row =mysqli_fetch_assoc($select_comments)){
@@ -79,7 +89,7 @@ $comment_date= $row['comment_date'];
          <td><?php echo "<a href='comments.php?approve=$comment_id'> Approve</a>" ?></td>
          <td><?php echo "<a href='comments.php?unapprove=$comment_id'> Unapprove</a>" ?></td>
         
-         <td><?php echo "<a href='comments.php?delete=$comment_id'> Delete</a>" ?></td>
+         <td><?php echo "<a href='post_comments.php?delete=$comment_id&id=" . $_GET['id'] ."'> Delete</a>" ?></td>
          </tr>
 <?php    }   ?>
 </tbody>
@@ -113,12 +123,9 @@ if(isset($_GET['delete'])){
   $the_comment_id= $_GET['delete'];
   $query= "DELETE FROM comments WHERE comment_id={$the_comment_id}";
   $delete_query = mysqli_query($connection,$query);
-  header("location:comments.php");
+  header("location:post_comments.php?id=" . $_GET['id'] ."");
 
 }
-
-
-
 
 ?>
 
@@ -126,3 +133,13 @@ if(isset($_GET['delete'])){
 
 
 </div>
+</div>
+<!-- /.row -->
+
+</div>
+<!-- /.container-fluid -->
+
+</div>
+<!-- /#page-wrapper -->
+
+<?php include "homepage/footer.php" ?>

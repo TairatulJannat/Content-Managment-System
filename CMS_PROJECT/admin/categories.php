@@ -32,11 +32,18 @@ Welcome to admin
 <!-- update_ref//// -->
 <?php 
 if(isset($_GET['edit'])){
+if(isset($_SESSION['user_role'])){
+
+  if($_SESSION['user_role'] == 'admin'){
 $cat_id = $_GET['edit'];
 include "homepage/update_categories.php";
 }
+}
+}
 
 ?>
+
+
 </div>
 <div class="col-xs-6">
 

@@ -1,4 +1,19 @@
 <?php
+
+if(isset($_SESSION['user_role'])){
+
+  if($_SESSION['user_role'] != 'admin'){
+
+
+   header("Location:./index.php");
+
+  }
+  }
+
+?>
+
+
+<?php
     if(isset($_POST['create_user']))
     {
          // $user_id = $_POST['user_id'];
@@ -10,7 +25,7 @@
          $user_email= $_POST['user_email'];
          $user_password= $_POST['user_password'];
          
-//         move_uploaded_file($post_image_temp, "../images/$post_image" );
+         $user_password = password_hash($user_password,PASSWORD_BCRYPT,array('cost'=>10));
 
  $query = "INSERT INTO users(user_firstname, user_lastname, user_role, username, user_email, user_password) ";
  $query .= "VALUES('{$user_firstname}','{$user_lastname}','{$user_role}','{$username}','{$user_email}','{$user_password}') ";

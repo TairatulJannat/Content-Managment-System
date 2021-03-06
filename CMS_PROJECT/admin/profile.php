@@ -28,7 +28,7 @@ $user_role= $row['user_role'];
          // $user_id = $_POST['user_id'];
          $user_firstname= $_POST['user_firstname'];
          $user_lastname= $_POST['user_lastname'];
-         $user_role= $_POST['user_role'];
+        //  $user_role= $_POST['user_role'];
          // $user_image= $row['user_image'];
          $username= $_POST['username'];
          $user_email= $_POST['user_email'];
@@ -38,7 +38,7 @@ $user_role= $row['user_role'];
          $query = "UPDATE users SET ";
          $query .="user_firstname ='{$user_firstname}', ";
          $query .="user_lastname ='{$user_lastname}', ";
-         $query .="user_role ='{$user_role}', ";
+        //  $query .="user_role ='{$user_role}', ";
          $query .="username ='{$username}', ";
          $query .="user_email ='{$user_email}', ";
          $query .="user_password ='{$user_password}' ";
@@ -84,19 +84,7 @@ Welcome to admin
 
 
     
-    <div class="form-group">
-    <select name="user_role" id="">
-           <option value="Subscriber"><?php echo $user_role; ?></option>
-            <?php
-            if($user_role== 'admin'){
-               echo  "<option value='subscriber'>Subcriber</option>" ;
-
-            }else{
-              echo  " <option value='admin'>Admin</option>" ;    
-            }
-            ?> 
-        </select>
-    </div>
+    
    
     <!-- <div class="form-group">
         <label for="post_image">Post Image</label>
@@ -114,7 +102,7 @@ Welcome to admin
      
     <div class="form-group">
         <label for="post_content">Password</label>
-        <input type="password" value="<?php echo $user_password; ?>" class="form-control" name="user_password">
+        <input autocomplete="off" type="password"  class="form-control" name="user_password">
         
     </div>
 

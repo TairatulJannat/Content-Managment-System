@@ -164,7 +164,12 @@ $query = "SELECT * FROM comments WHERE comment_status = 'unapproved' ";
 $unapproved_comments_query = mysqli_query($connection, $query);
 $unapproved_comment_count = mysqli_num_rows($unapproved_comments_query);
 
-$query = "SELECT * FROM posts WHERE post_status = 'darft'";
+
+$query = "SELECT * FROM posts WHERE post_status = 'published'";
+$select_all_published = mysqli_query($connection, $query);
+$publish_count = mysqli_num_rows($select_all_published);
+
+$query = "SELECT * FROM users WHERE user_role = 'subscriber'";
 $select_all_subscribers = mysqli_query($connection, $query);
 $subscriber_count = mysqli_num_rows($select_all_subscribers);
 
@@ -182,10 +187,10 @@ $subscriber_count = mysqli_num_rows($select_all_subscribers);
 <?php
 
 
-$element_text = ['Active Posts','Draft posts', 'Comments', 'Pending Comments', 'Users', 'Subscribers', 'Categories' ];
-$element_count = [$post_count, $post_draft_count, $comment_count, $unapproved_comment_count, $user_count, $subscriber_count, $categories_count ];
+$element_text = ['All post', 'Active Posts','Draft posts', 'Comments', 'Pending Comments', 'Users', 'Subscribers', 'Categories' ];
+$element_count = [$post_count, $publish_count, $post_draft_count, $comment_count, $unapproved_comment_count, $user_count, $subscriber_count, $categories_count ];
 
-for($i=0;$i < 7 ; $i++){
+for($i=0;$i < 8 ; $i++){
 
     echo "['{$element_text[$i]}'" . "," . "{$element_count[$i]}],";
 }
